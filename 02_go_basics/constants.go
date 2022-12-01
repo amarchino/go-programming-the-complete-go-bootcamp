@@ -32,4 +32,10 @@ func main() {
 	)
 
 	fmt.Println(min1, min2, min3)
+
+	// Constant rules
+	// 1. you cannot change a constant
+	// 2. you cannot initialize a contant at runtime
+	// 3. you cannot use a variable to initialize a constant
+	// 4. you can use len if the argument is a constant
 }

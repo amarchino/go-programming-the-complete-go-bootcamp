@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func main() {
 	var x = 3
@@ -26,4 +29,30 @@ func main() {
 
 	// a = b
 	a = int(b)
+
+	s := string(99)
+	fmt.Printf("%T %v\n", s, s)
+
+	// s1 := string(44.2)
+	var myStr = fmt.Sprintf("%f", 44.2)
+	fmt.Println(myStr)
+
+	var myStr1 = fmt.Sprintf("%d", 34234)
+	fmt.Println(myStr1)
+
+	fmt.Println(string(34234))
+
+	s1 := "3.123"
+	fmt.Printf("%T\n", s1)
+
+	f1, err := strconv.ParseFloat(s1, 64)
+	_ = err
+
+	fmt.Printf("%T\n", f1)
+
+	i, err := strconv.Atoi("-50")
+	s2 := strconv.Itoa(20)
+
+	fmt.Printf("i Type is %T, i value is %v\n", i, i)
+	fmt.Printf("s2 Type is %T, s2 value is %q\n", s2, s2)
 }

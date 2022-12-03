@@ -12,6 +12,7 @@ loop:
 		goto loop
 	}
 
+	//
 	//	goto todo
 	//	x := 5
 	//

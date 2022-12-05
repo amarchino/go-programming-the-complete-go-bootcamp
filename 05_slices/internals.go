@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"unsafe"
+)
 
 func main() {
 	s1 := []int{10, 20, 30, 40, 50}
@@ -20,4 +23,30 @@ func main() {
 	fmt.Println(arr1)
 	fmt.Println(slice1)
 	fmt.Println(slice2)
+
+	cars := []string{"Ford", "Honda", "Audi", "Range Rover"}
+	newCars := []string{}
+
+	newCars = append(newCars, cars[0:2]...)
+	cars[0] = "Nissan"
+	fmt.Println(cars, newCars)
+
+	sl1 := []int{10, 20, 30, 40, 50}
+	newSlice := sl1[0:3]
+	fmt.Println(len(newSlice), cap(newSlice))
+
+	newSlice = sl1[2:5]
+	fmt.Println(len(newSlice), cap(newSlice))
+
+	fmt.Printf("%p\n", &sl1)
+	fmt.Printf("%p %p\n", &sl1, &newSlice)
+
+	newSlice[0] = 1000
+	fmt.Println("sl1:", sl1)
+
+	a := [5]int{1, 2, 3, 4, 5}
+	s := []int{1, 2, 3, 4, 5}
+
+	fmt.Printf("Array's size in bytes: %d\n", unsafe.Sizeof(a))
+	fmt.Printf("Slice's size in bytes: %d\n", unsafe.Sizeof(s))
 }

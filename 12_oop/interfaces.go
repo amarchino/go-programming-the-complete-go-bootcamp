@@ -52,8 +52,16 @@ func print(s shape) {
 }
 
 func main() {
-	c1 := circle{radius: 5.}
-	r1 := rectangle{width: 3., height: 2.1}
-	print(c1)
-	print(r1)
+	var s shape
+	fmt.Printf("%T\n", s)
+
+	ball := circle{radius: 2.5}
+	s = ball
+
+	print(s)
+	fmt.Printf("Type of s: %T\n", s)
+
+	room := rectangle{width: 2., height: 3.}
+	s = room
+	fmt.Printf("Type of s: %T\n", s)
 }

@@ -25,6 +25,10 @@ func (c circle) perimeter() float64 {
 	return 2 * math.Pi * c.radius
 }
 
+func (c circle) volume() float64 {
+	return 4 / 3 * math.Pi * math.Pow(c.radius, 3)
+}
+
 func (r rectangle) area() float64 {
 	return r.height * r.width
 }
@@ -52,16 +56,18 @@ func print(s shape) {
 }
 
 func main() {
-	var s shape
+	var s shape = circle{radius: 2.5}
 	fmt.Printf("%T\n", s)
 
-	ball := circle{radius: 2.5}
-	s = ball
+	if ball, ok := s.(circle); ok {
+		fmt.Printf("Ball volume: %v\n", ball.volume())
+	}
 
-	print(s)
-	fmt.Printf("Type of s: %T\n", s)
-
-	room := rectangle{width: 2., height: 3.}
-	s = room
-	fmt.Printf("Type of s: %T\n", s)
+	s = rectangle{width: 3.4, height: 2.2}
+	switch value := s.(type) {
+	case circle:
+		fmt.Printf("%#v has circle type\n", value)
+	case rectangle:
+		fmt.Printf("%#v has rectangle type\n", value)
+	}
 }

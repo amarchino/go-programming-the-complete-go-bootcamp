@@ -27,4 +27,5 @@ func main() {
 	}
 	wg.Wait()
 	fmt.Println("Final value of n:", n)
+	// Check race condition by running with -race flag
 }

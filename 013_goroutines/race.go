@@ -8,6 +8,7 @@ import (
 
 func main() {
 	const gr = 100
+	var m sync.Mutex
 	var wg sync.WaitGroup
 	wg.Add(gr * 2)
 
@@ -15,13 +16,17 @@ func main() {
 	for i := 0; i < gr; i++ {
 		go func() {
 			time.Sleep(time.Second / 10)
+			m.Lock()
 			n++
+			m.Unlock()
 			wg.Done()
 		}()
 
 		go func() {
 			time.Sleep(time.Second / 10)
+			m.Lock()
 			n--
+			m.Unlock()
 			wg.Done()
 		}()
 	}

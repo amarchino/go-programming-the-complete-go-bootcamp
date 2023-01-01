@@ -5,35 +5,43 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"runtime"
 	"strings"
+	"sync"
 )
 
-func checkAndSaveBody(url string) {
+func checkAndSaveBody(url string, wg *sync.WaitGroup) {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
 		fmt.Printf("%s is DOWN\n", url)
-		return
-	}
-	defer resp.Body.Close()
-	fmt.Printf("%s -> Status Code: %d\n", url, resp.StatusCode)
-	if resp.StatusCode == 200 {
-		bodyBytes, err := ioutil.ReadAll(resp.Body)
-		file := strings.Split(url, "//")[1]
-		file += ".txt"
+	} else {
+		defer resp.Body.Close()
+		fmt.Printf("%s -> Status Code: %d\n", url, resp.StatusCode)
+		if resp.StatusCode == 200 {
+			bodyBytes, err := ioutil.ReadAll(resp.Body)
+			file := strings.Split(url, "//")[1]
+			file += ".txt"
 
-		fmt.Printf("Writing response body to %s\n", file)
-		err = ioutil.WriteFile(file, bodyBytes, 0664)
-		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("Writing response body to %s\n", file)
+			err = ioutil.WriteFile(file, bodyBytes, 0664)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
+	wg.Done()
 }
 
 func main() {
 	urls := []string{"https://golang1.org", "https://www.google.com/a.html", "https://www.medium.com"}
+
+	var wg sync.WaitGroup
+	wg.Add(len(urls))
+
 	for _, url := range urls {
-		checkAndSaveBody(url)
-		fmt.Println(strings.Repeat("#", 20))
+		go checkAndSaveBody(url, &wg)
 	}
+	fmt.Println("No. of Goroutines:", runtime.NumGoroutine())
+	wg.Wait()
 }

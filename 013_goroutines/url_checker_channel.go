@@ -2,37 +2,25 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"runtime"
-	"strings"
+	"time"
 )
 
-func checkAndSaveBody(url string, c chan string) {
+func checkUrl(url string, c chan string) {
 	resp, err := http.Get(url)
 	if err != nil {
 		s := fmt.Sprintf("%s is DOWN\n", url)
 		s += fmt.Sprintf("Error: %v\n", err)
-		c <- s // Sending
+		fmt.Println(s)
+		c <- url // Sending
 	} else {
 		defer resp.Body.Close()
 		s := fmt.Sprintf("%s -> Status Code: %d\n", url, resp.StatusCode)
-		if resp.StatusCode == 200 {
-			bodyBytes, err := ioutil.ReadAll(resp.Body)
-			file := strings.Split(url, "//")[1]
-			file += ".txt"
-
-			s += fmt.Sprintf("Writing response body to %s\n", file)
-			err = ioutil.WriteFile(file, bodyBytes, 0664)
-			if err != nil {
-				s += "Error writing file"
-				c <- s
-			}
-			s += fmt.Sprintf("%s is UP\n", url)
-			c <- s
-		}
+		s += fmt.Sprintf("%s is UP\n", url)
+		fmt.Println(s)
+		c <- url
 	}
-
 }
 
 func main() {
@@ -40,11 +28,29 @@ func main() {
 	c := make(chan string)
 
 	for _, url := range urls {
-		go checkAndSaveBody(url, c)
+		go checkUrl(url, c)
 	}
 	fmt.Println("No. of Goroutines:", runtime.NumGoroutine())
 
-	for i := 0; i < len(urls); i++ {
-		fmt.Println(<-c)
+	// for i := 0; i < len(urls); i++ {
+	// 	fmt.Println(<-c)
+	// }
+
+	// for {
+	// 	go checkUrl(<-c, c)
+	// 	fmt.Println(strings.Repeat("#", 10))
+	// 	time.Sleep(time.Second * 2)
+	// }
+
+	// for url := range c {
+	// 	time.Sleep(time.Second * 2)
+	// 	go checkUrl(url, c)
+	// }
+
+	for url := range c {
+		go func(u string) {
+			time.Sleep(time.Second * 2)
+			checkUrl(u, c)
+		}(url)
 	}
 }

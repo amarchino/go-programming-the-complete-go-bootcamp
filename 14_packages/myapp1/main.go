@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/amarchino/go-math/geometry"
-	"github.com/amarchino/go-math/calc"
+	// "github.com/amarchino/go-math/v2/calc"
 )
 
 func main() {

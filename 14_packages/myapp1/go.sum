@@ -1,2 +1,4 @@
 github.com/amarchino/go-math v1.1.0 h1:HLDUd9DUxSc9ZN9UUY9dr+gx+G9CDwoaKZQOu28GRYo=
 github.com/amarchino/go-math v1.1.0/go.mod h1:2bKel/hnLeN+YcC37pPLgyHJ1lOm4yZ3BHs/e2t8uf0=
+github.com/amarchino/go-math/v2 v2.0.0 h1:EM+BaiEAc6gTbznjpOHLMOpuA/Fvh+yJKcNXBQQh24s=
+github.com/amarchino/go-math/v2 v2.0.0/go.mod h1:0d8oLicyAB4xvxTzsx+fE2VoBHAFMC18T/4BEf1q+1g=
